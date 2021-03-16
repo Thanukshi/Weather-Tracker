@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Heading from './components/Heading';
+import Form from './components/Form';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const api_key = "340f285ba2462b49429ef9f10d8473ea";
+
+class App extends React.Component {
+  state = {
+    temperature: "",
+    city : "",
+    country : "",
+    humidity : "",
+    pressure : "",
+    icon : "",
+    description : "", 
+    error : "",
+  }
+
+  getWhether = async (e) =>{
+    const city = e.target.elements.city.value;
+    const country = e.target.elements.country.value;
+    e.preventDefault();
+    const api_call = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city},${country}&id=524901&appid={API key}`)
+  }
+  render() {
+    return (
+      <div>
+        <Heading/>
+        <Form/>    
+      </div>
+    )    
+  }
 }
 
 export default App;
