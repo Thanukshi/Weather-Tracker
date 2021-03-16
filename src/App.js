@@ -20,13 +20,31 @@ class App extends React.Component {
     const city = e.target.elements.city.value;
     const country = e.target.elements.country.value;
     e.preventDefault();
-    const api_call = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city},${country}&id=524901&appid={API key}`)
-  }
+    const api_call = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city},${country}&units=imperial&id=524901&appid=${api_key}`);
+
+    const response = await api_call.json();
+    if(city && country){
+      this.setState({
+        temperature:response.main.temperature,
+        city: response.name, 
+        country: response.sys.country,
+        humidity:response.main.humidity,
+        pressure:response.main.pressure,
+        icon:response.weather[0].icon,
+        description:response.weather[0].description,
+        error : ""
+    })
+    }else{
+      this.setState({
+        error : "Please fill out input fields..."
+      })
+    }
+  } 
   render() {
     return (
       <div>
         <Heading/>
-        <Form/>    
+        <Form loadWeather={this.getWhether}/>    
       </div>
     )    
   }
